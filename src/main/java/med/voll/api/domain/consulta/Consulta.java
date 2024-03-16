@@ -1,14 +1,17 @@
 package med.voll.api.domain.consulta;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Consulta {
 
     @Id
