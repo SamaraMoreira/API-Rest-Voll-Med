@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class DBException {
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity Error404(){
+    public ResponseEntity Error404() {
         return ResponseEntity.notFound().build();
     }
 
@@ -28,11 +28,9 @@ public class DBException {
 
     }
 
+    private record DadosErroValidacao(String campo, String mensagem) {
 
-
-    private record DadosErroValidacao(String campo, String mensagem){
-
-        public DadosErroValidacao(FieldError erro){
+        public DadosErroValidacao(FieldError erro) {
             this(erro.getField(), erro.getDefaultMessage());
         }
 

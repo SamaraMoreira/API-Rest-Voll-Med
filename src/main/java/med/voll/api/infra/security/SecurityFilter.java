@@ -1,4 +1,5 @@
 package med.voll.api.infra.security;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,10 +25,10 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var tokenTWT = recuperarToken(request);
-        if (tokenTWT != null){
+        if (tokenTWT != null) {
             var subject = tokenService.getSubject(tokenTWT);
             var usuario = repository.findByLogin(subject);
-            var authentication = new UsernamePasswordAuthenticationToken(usuario,null,usuario.getAuthorities());
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             System.out.println("Logado");
         }
@@ -37,8 +38,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recuperarToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null){
-            return authorizationHeader.replace("Bearer ","");
+        if (authorizationHeader != null) {
+            return authorizationHeader.replace("Bearer ", "");
         }
         return null;
     }

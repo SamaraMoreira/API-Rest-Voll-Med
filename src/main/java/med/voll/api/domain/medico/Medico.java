@@ -9,7 +9,7 @@ import med.voll.api.domain.endereco.Endereco;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Medico")
-@Table(name ="medicos")
+@Table(name = "medicos")
 public class Medico {
 
     @Id
@@ -30,7 +30,8 @@ public class Medico {
 
     public Medico(DadosCadastroMedico dados) {
         this.ativo = true;
-        this.nome = dados.nome();;
+        this.nome = dados.nome();
+        ;
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.crm = dados.crm();
@@ -68,13 +69,14 @@ public class Medico {
     }
 
     public void atualizarInformacoes(DadosAtualizarMedico dados) {
-        if(dados.nome() !=null){
-            this.nome = dados.nome();;
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+            ;
         }
-        if(dados.telefone() !=null){
+        if (dados.telefone() != null) {
             this.telefone = dados.telefone();
         }
-        if(dados.endereco() !=null){
+        if (dados.endereco() != null) {
             this.endereco.atualizarInformacoes(dados.endereco());
         }
     }

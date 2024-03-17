@@ -12,13 +12,13 @@ public class ValidarMedicoAtivo implements ValidadorAgendamentoDeConsulta {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    public void validar(DadosAgendamentoConsulta dados){
-        if(dados.idMedico() == null){
+    public void validar(DadosAgendamentoConsulta dados) {
+        if (dados.idMedico() == null) {
             return;
         }
 
         var medicoEstaAtivo = medicoRepository.findByAtivoId(dados.idMedico());
-        if(!medicoEstaAtivo){
+        if (!medicoEstaAtivo) {
             throw new ValidacaoException("Consulta não pode ser agendado com o médico");
         }
 

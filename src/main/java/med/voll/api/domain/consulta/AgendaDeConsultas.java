@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AgendaDeConsultas  {
+public class AgendaDeConsultas {
 
     @Autowired
     private ConsultaRepository consultaRepository;
@@ -26,20 +26,20 @@ public class AgendaDeConsultas  {
     @Autowired
     private List<ValidadorAgendamentoDeConsulta> validadores;
 
-    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados){
-        if(!pacienteRepository.existsById(dados.idPaciente())){
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("ID do paciente informado não existe!");
         }
-        if(dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())){
+        if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
             throw new ValidacaoException("ID do medico informado não existe!");
 
         }
 
-        validadores.forEach( v -> v.validar(dados));
+        validadores.forEach(v -> v.validar(dados));
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
-        if(medico == null){
+        if (medico == null) {
             throw new ValidacaoException("Não existe médico disponivel nessa data");
         }
         var consulta = new Consulta(null, medico, paciente, dados.data());
@@ -49,11 +49,11 @@ public class AgendaDeConsultas  {
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
-        if(dados.idMedico() != null){
+        if (dados.idMedico() != null) {
             return medicoRepository.getReferenceById(dados.idMedico());
         }
 
-        if(dados.especialidade() == null){
+        if (dados.especialidade() == null) {
             throw new ValidacaoException("Especialidade é obrigatório quando o médico não for escolhido");
         }
         return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());

@@ -26,7 +26,8 @@ public class Paciente {
 
     public Paciente(DadosCadastroPaciente dados) {
         this.ativo = true;
-        this.nome = dados.nome();;
+        this.nome = dados.nome();
+        ;
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.cpf = dados.cpf();
@@ -57,17 +58,18 @@ public class Paciente {
         return endereco;
     }
 
-    public void atualizarInformacoes(DadosAtualizarPaciente dados){
-        if(dados.nome() !=null){
-        this.nome = dados.nome();;
+    public void atualizarInformacoes(DadosAtualizarPaciente dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+            ;
+        }
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
+        if (dados.endereco() != null) {
+            this.endereco.atualizarInformacoes(dados.endereco());
+        }
     }
-        if(dados.telefone() !=null){
-        this.telefone = dados.telefone();
-    }
-        if(dados.endereco() !=null){
-        this.endereco.atualizarInformacoes(dados.endereco());
-    }
-}
 
     public void excluir() {
         this.ativo = false;

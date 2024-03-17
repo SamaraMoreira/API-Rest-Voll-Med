@@ -23,12 +23,13 @@ public class PacienteController {
     private PacienteRepository repository;
 
     @PostMapping
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente dados, UriComponentsBuilder uriBuilder) {
         var paciente = new Paciente(dados);
         repository.save(paciente);
         var uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(paciente.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoPaciente(paciente));
     }
+
     @GetMapping
     public ResponseEntity<Page<DadosListagemPacientes>> listar(@PageableDefault(size = 10, page = 0, sort = {"nome"}) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemPacientes::new);
@@ -37,20 +38,22 @@ public class PacienteController {
 
     @Transactional
     @PutMapping
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarPaciente dados){
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarPaciente dados) {
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizarInformacoes(dados);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
     }
+
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity deletar(@PathVariable Long id){
+    public ResponseEntity deletar(@PathVariable Long id) {
         var paciente = repository.getReferenceById(id);
         paciente.excluir();
         return ResponseEntity.noContent().build();
     }
-    @GetMapping ("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id){
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id) {
         var paciente = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
     }
